@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- Exam exam = new NewlecExam(); -->
+	<bean id="exam" class="spring.di.entity.NewlecExam" />
+	<!--  패키지명까지 적는이유는 동명이인방지 -->
+	<!-- ExamConsole console = new GridExamConsloe(); -->
+	<bean id="console" class="spring.di.ui.GridExamConsloe" >
+	<!-- 내가 지시한것 spring이 생성해준다 -->
+	<!-- console.setExam(exam); set생략 대문자도 소문자로 setExam을 호출하기위한 함수명 name= -->
+		<property name="exam" ref="exam"/>
+		<!-- 벨류형(value=)인지 레퍼런스형(ref=)이지 맞춰서 적어준다 -->
+		<!-- 이게 인젝션 지시서 -->		
+	</bean>
+	
+	
+</beans>

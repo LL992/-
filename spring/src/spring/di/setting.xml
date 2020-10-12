@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- Exam exam = new NewlecExam(); -->
+	<bean id="exam" class="spring.di.entity.NewlecExam" p:kor="10" p:eng="20"/>
+	<!-- p를 이용한 값넣는 방식 -->
+	<!-- <bean id="exam" class="spring.di.entity.NewlecExam">
+		<constructor-arg name="kor" value="10" /> 네임 사용방식
+		<constructor-arg index="1" value="20" /> 인덱스 사용방식
+		<constructor-arg index="2" value="30" />
+		<constructor-arg index="3" value="40" /> 기본생성자아닌 값4개를 가진생성자를 이용해서 세팅한것
+	 
+		<property name="kor">
+			<value>10</value>
+		</property>  두가지중 선호하는방시으로 하면댐 
+		<property name="eng" value="10" />
+		<property name="math" value="10" />
+		<property name="com" value="10" />
+	
+	</bean> -->
+	<!--  패키지명까지 적는이유는 동명이인방지 -->
+	<!-- ExamConsole console = new GridExamConsloe(); -->
+	<bean id="console" class="spring.di.ui.InlineExamConsole" >
+	<!-- 내가 지시한것 spring이 생성해준다 -->
+	<!-- console.setExam(exam); set생략 대문자도 소문자로 setExam을 호출하기위한 함수명 name= -->
+		<property name="exam" ref="exam"/>
+		<!-- 벨류형(value=)인지 레퍼런스형(ref=)이지 맞춰서 적어준다 -->
+		<!-- 이게 인젝션 지시서 -->		
+	</bean>
+	
+	
+</beans>
