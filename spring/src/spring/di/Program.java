@@ -28,15 +28,20 @@ public class Program {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("spring/di/setting.xml");
 		
-		Exam exam = context.getBean(Exam.class);
-		System.out.println(exam.toString());
+		//Exam exam = context.getBean(Exam.class);
+		//System.out.println(exam.toString());
 		
-		//ExamConsole console = (ExamConsole) context.getBean("console"); //형식변환으로 가져오는방법((ExamConsole))
-		ExamConsole console = context.getBean(ExamConsole.class); // ExamConsole에 맞는 클래쓰를 찾아달라는 방법
+		ExamConsole console = (ExamConsole) context.getBean("console"); //형식변환으로 가져오는방법((ExamConsole))
+		//ExamConsole console = context.getBean(ExamConsole.class); // ExamConsole에 맞는 클래쓰를 찾아달라는 방법
 		console.print();
 		
-		List<Exam> exams = new ArrayList<> ();
-		exams.add(new NewlecExam(1,1,1,1));
+		//List<Exam> exams = (List<Exam>) context.getBean("exams");//new ArrayList<> ();
+		//exams.add(new NewlecExam(1,1,1,1));
+		
+		
+		
+		//for(Exam e : exams)
+		//	System.out.println(e);
 		
 	}
 

@@ -2,9 +2,18 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+		
+	<context:annotation-config/>
+	<context:component-scan base-package="spring.di.ui"/>
 	<!-- Exam exam = new NewlecExam(); -->
-	<bean id="exam" class="spring.di.entity.NewlecExam" p:kor="10" p:eng="20"/>
+	<!-- <bean id="exam" class="spr
+	ing.di.entity.NewlecExam" p:kor="10" p:eng="10"/>
+	<bean id="exam2" class="spring.di.entity.NewlecExam" p:kor="20" p:eng="20"/> -->
 	<!-- p를 이용한 값넣는 방식 -->
 	<!-- <bean id="exam" class="spring.di.entity.NewlecExam">
 		<constructor-arg name="kor" value="10" /> 네임 사용방식
@@ -22,13 +31,25 @@
 	</bean> -->
 	<!--  패키지명까지 적는이유는 동명이인방지 -->
 	<!-- ExamConsole console = new GridExamConsloe(); -->
-	<bean id="console" class="spring.di.ui.InlineExamConsole" >
-	<!-- 내가 지시한것 spring이 생성해준다 -->
-	<!-- console.setExam(exam); set생략 대문자도 소문자로 setExam을 호출하기위한 함수명 name= -->
+<!-- 	<util:list id="exams" list-class="java.util.ArrayList"> 객체 자체생산가능
+		<bean class="spring.di.entity.NewlecExam" p:kor="1" p:eng="1"/>
+		<ref bean="exam"/>
+	</util:list> 참조중인것-->
+	<!-- <bean id="console" class="spring.di.ui.InlineExamConsole" >
+	내가 지시한것 spring이 생성해준다
+	console.setExam(exam); set생략 대문자도 소문자로 setExam을 호출하기위한 함수명 name=
 		<property name="exam" ref="exam"/>
-		<!-- 벨류형(value=)인지 레퍼런스형(ref=)이지 맞춰서 적어준다 -->
-		<!-- 이게 인젝션 지시서 -->		
-	</bean>
+		벨류형(value=)인지 레퍼런스형(ref=)이지 맞춰서 적어준다
+	</bean> -->
 	
+	<!-- <bean id="exams" class="java.util.ArrayList">
+		<constructor-arg>
+			<list> 목로을  세팅할때사용 자체가 객체를 만들진못함
+				<bean class="spring.di.entity.NewlecExam" p:kor="1" p:eng="1"/>
+				<ref bean="exam"/>
+			</list>
+		</constructor-arg>
+	</bean> -->
 	
+<!-- 이게 인젝션 지시서 -->		
 </beans>
