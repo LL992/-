@@ -11,14 +11,63 @@
 	<bean id="target" class="spring.aop.entity.NewlecExam" p:kor="1" p:eng="1" p:math="1" p:com="1"/>
 	<bean id="logAroundAdvice" class="spring.aop.advice.LogAroundAdvice" />
 	<bean id="logBeforeAdvice" class="spring.aop.advice.LogBeforeAdvice" />
+	<bean id="logAfterReturningAdvice" class="spring.aop.advice.LogAfterReturningAdvice" />
+	<bean id="logAfterThorwingAdvice" class="spring.aop.advice.LogAfterThorwingAdvice" />
+	
+	<!-- <bean id="classicPointCut" class="org.springframework.aop.support.NameMatchMethodPointcut">
+		<property name="mappedName" value="total" />	
+	</bean>
+	
+	<bean id="classBeforeAdvisor" class="org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor">
+		<property name="advice" ref="logBeforeAdvice"/>
+		<property name="pointcut" ref="classicPointCut" />
+	</bean>
+	
+	<bean id="classAroundAdvisor" class="org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor">
+		<property name="advice" ref="logAroundAdvice"/>
+		<property name="pointcut" ref="classicPointCut" />
+	</bean> 
+	 
+	 -->
+	 
+	 <!-- <bean id="classBeforeAdvisor" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="advice" ref="logBeforeAdvice"/>
+		<property name="mappedNames">
+			<list>
+				<value>total</value>
+				<value>avg</value>
+			</list>
+		</property>	
+	</bean> 
+	-->
+	
+	<bean id="classBeforeAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice" ref="logBeforeAdvice"/>
+		<property name="patterns">
+			<list>
+				<value>.*to.*</value>
+			</list>
+		</property>	
+	</bean>
+	 
+	<bean id="classAroundAdvisor" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="advice" ref="logAroundAdvice"/>
+		<property name="mappedName" value="total" />	
+	</bean>  
+	
+	
 	<bean id="exam" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="target" ref="target" />
 		<property name="interceptorNames">
 			<list>
-				<value>logAroundAdvice</value>
-				<value>logBeforeAdvice</value>
+				<value>classAroundAdvisor</value>
+				<value>classBeforeAdvisor</value>
+				<value>logAfterReturningAdvice</value>
+				<value>logAfterThorwingAdvice</value>
 			</list>
 		</property>
 	</bean>
+	
+	
 <!-- 이게 인젝션 지시서 -->		
 </beans>
