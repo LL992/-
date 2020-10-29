@@ -1,0 +1,94 @@
+CREATE TABLE `c_code_d` (
+	`i_m` INT(10) UNSIGNED NOT NULL,
+	`cd` INT(10) UNSIGNED NOT NULL,
+	`val` VARCHAR(15) NOT NULL COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`i_m`, `cd`) USING BTREE,
+	CONSTRAINT `c_code_d_ibfk_1` FOREIGN KEY (`i_m`) REFERENCES `matzip`.`c_code_m` (`i_m`) ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE `c_code_m` (
+	`i_m` INT(10) UNSIGNED NOT NULL,
+	`desc` VARCHAR(30) NULL DEFAULT '' COLLATE 'utf8mb4_general_ci',
+	`cd_nm` VARCHAR(20) NULL DEFAULT '' COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`i_m`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE `t_restaurant` (
+	`i_rest` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`nm` VARCHAR(20) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`addr` VARCHAR(100) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`lat` DOUBLE(22,0) NOT NULL,
+	`lng` DOUBLE(22,0) NOT NULL,
+	`cd_category` INT(10) UNSIGNED NOT NULL,
+	`i_user` INT(10) UNSIGNED NOT NULL COMMENT '등록자',
+	`r_dt` DATETIME NULL DEFAULT current_timestamp(),
+	`m_dt` DATETIME NULL DEFAULT current_timestamp(),
+	`hits` INT(10) NOT NULL DEFAULT '1',
+	PRIMARY KEY (`i_rest`) USING BTREE,
+	INDEX `i_user` (`i_user`) USING BTREE,
+	CONSTRAINT `t_restaurant_ibfk_1` FOREIGN KEY (`i_user`) REFERENCES `matzip`.`t_user` (`i_user`) ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=21
+;
+
+CREATE TABLE `t_restaurant_menu` (
+	`i_rest` INT(10) UNSIGNED NOT NULL,
+	`seq` INT(10) UNSIGNED NOT NULL,
+	`menu_pic` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`i_rest`, `seq`) USING BTREE,
+	CONSTRAINT `t_restaurant_menu_ibfk_1` FOREIGN KEY (`i_rest`) REFERENCES `matzip`.`t_restaurant` (`i_rest`) ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE `t_restaurant_recommend_menu` (
+	`i_rest` INT(10) UNSIGNED NOT NULL,
+	`seq` INT(10) UNSIGNED NOT NULL,
+	`menu_nm` VARCHAR(30) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`menu_price` INT(10) UNSIGNED NOT NULL,
+	`menu_pic` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`i_rest`, `seq`) USING BTREE,
+	CONSTRAINT `t_restaurant_recommend_menu_ibfk_1` FOREIGN KEY (`i_rest`) REFERENCES `matzip`.`t_restaurant` (`i_rest`) ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE `t_user` (
+	`i_user` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`user_id` VARCHAR(30) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`user_pw` VARCHAR(70) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`salt` VARCHAR(30) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`nm` VARCHAR(5) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`profile_img` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`r_dt` DATETIME NULL DEFAULT current_timestamp(),
+	`m_dt` DATETIME NULL DEFAULT current_timestamp(),
+	PRIMARY KEY (`i_user`) USING BTREE,
+	UNIQUE INDEX `user_id` (`user_id`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=20
+;
+
+CREATE TABLE `t_user_favorite` (
+	`i_rest` INT(10) UNSIGNED NOT NULL,
+	`i_user` INT(10) UNSIGNED NOT NULL,
+	`r_dt` DATETIME NULL DEFAULT current_timestamp(),
+	PRIMARY KEY (`i_rest`, `i_user`) USING BTREE,
+	INDEX `i_user` (`i_user`) USING BTREE,
+	CONSTRAINT `t_user_favorite_ibfk_1` FOREIGN KEY (`i_rest`) REFERENCES `matzip`.`t_restaurant` (`i_rest`) ON UPDATE RESTRICT ON DELETE RESTRICT,
+	CONSTRAINT `t_user_favorite_ibfk_2` FOREIGN KEY (`i_user`) REFERENCES `matzip`.`t_user` (`i_user`) ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
